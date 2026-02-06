@@ -149,7 +149,7 @@ const Contact: React.FC = () => {
                   />
                 </div>
                 <label htmlFor="privacy" className="text-xs text-apple-subtext dark:text-white/40 leading-tight cursor-pointer select-none">
-                  He leído y acepto la <span className="text-apple-blue hover:underline">política de privacidad</span>.
+                  He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener noreferrer" className="text-apple-blue hover:underline">política de privacidad</a>.
                 </label>
               </div>
 
