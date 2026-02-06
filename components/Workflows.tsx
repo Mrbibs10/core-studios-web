@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+
+import React, { useState } from 'react';
 import { WorkflowCardProps, ServiceCategory, ViewState } from '../types';
 import { 
   Mail, Sparkles, BarChart3, Package, Lock, Bot, 
-  Globe, ShoppingBag, Layout, Lightbulb, Home, Zap, X, Check, Wand2 
+  Globe, ShoppingBag, Layout, Lightbulb, Home, Zap, X, Check, Wand2, ChevronDown 
 } from 'lucide-react';
 
 const servicesData: WorkflowCardProps[] = [
@@ -135,8 +136,7 @@ interface ServicesProps {
 
 const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>('WORKFLOWS');
-  const [selectedService, setSelectedService] = useState<WorkflowCardProps | null>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null);
 
   const categories: { id: ServiceCategory; label: string }[] = [
     { id: 'WORKFLOWS', label: 'Workflows' },
@@ -146,38 +146,13 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
 
   const filteredServices = servicesData.filter(service => service.category === activeCategory);
 
-  const handleCardClick = (service: WorkflowCardProps) => {
-    if (!service.comingSoon) {
-      setSelectedService(service);
-    }
+  const toggleService = (id: string, comingSoon?: boolean) => {
+    if (comingSoon) return;
+    setExpandedServiceId(expandedServiceId === id ? null : id);
   };
 
-  useEffect(() => {
-    if (!selectedService) {
-      document.body.style.overflow = '';
-      return;
-    }
-    document.body.style.overflow = 'hidden';
-    const modal = modalRef.current;
-    if (!modal) return;
-    let scrollTimeout: number;
-    const handleScroll = () => {
-      modal.classList.add('scrolling');
-      clearTimeout(scrollTimeout);
-      scrollTimeout = window.setTimeout(() => {
-        modal.classList.remove('scrolling');
-      }, 800);
-    };
-    modal.addEventListener('scroll', handleScroll);
-    return () => {
-      document.body.style.overflow = '';
-      modal.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
-    };
-  }, [selectedService]);
-
   return (
-    <section className="min-h-screen py-32 px-6 bg-apple-bg dark:bg-[#0A0A0B] transition-colors duration-500">
+    <section className="min-h-screen py-32 px-6 bg-apple-bg dark:bg-[#0A0A0B] transition-colors duration-500 overflow-x-hidden">
       <div className="container mx-auto max-w-6xl">
         
         {/* Header & Sub-navigation */}
@@ -189,12 +164,14 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          {/* Invisible Category Switcher */}
           <div className="flex gap-1 self-center md:self-auto bg-gray-200/50 dark:bg-white/5 p-1 rounded-full backdrop-blur-sm">
             {categories.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
+                onClick={() => {
+                  setActiveCategory(cat.id);
+                  setExpandedServiceId(null);
+                }}
                 className={`
                   px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
                   ${activeCategory === cat.id 
@@ -209,171 +186,128 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map((service) => (
-            <button
-              key={service.id}
-              onClick={() => handleCardClick(service)}
-              disabled={service.comingSoon}
-              className={`
-                relative p-8 rounded-[32px] text-left transition-all duration-300 ease-out flex flex-col h-full min-h-[300px]
-                ${service.comingSoon 
-                  ? 'bg-gray-100/50 dark:bg-white/5 border-2 border-dashed border-gray-200 dark:border-white/10 cursor-default opacity-70 grayscale-[0.5]' 
-                  : `bg-white dark:bg-[#1C1C1E] shadow-sm hover:shadow-2xl hover:-translate-y-1.5 border ${service.id === 'w-custom' ? 'border-apple-blue/20 dark:border-apple-blue/30' : 'border-transparent dark:border-white/5'} hover:border-gray-100 dark:hover:border-white/20 cursor-pointer group`
-                }
-              `}
-            >
-              <div className="flex justify-between items-start mb-6">
-                <div className={`p-3 rounded-2xl ${service.comingSoon ? 'bg-gray-200/50 dark:bg-white/5 text-gray-400' : 'bg-apple-bg dark:bg-white/5 text-apple-text dark:text-white group-hover:text-apple-blue group-hover:bg-blue-50 dark:group-hover:bg-apple-blue/10'} transition-all`}>
-                  <service.icon size={28} strokeWidth={1.5} />
-                </div>
-                
-                {service.comingSoon && (
-                  <span className="bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-white/40 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1">
-                    <Lock size={10} />
-                    Próximamente
-                  </span>
-                )}
+        {/* Grid Container - Using items-start to prevent stretching of non-expanded cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+          {filteredServices.map((service) => {
+            const isExpanded = expandedServiceId === service.id;
+            
+            return (
+              <div
+                key={service.id}
+                className={`
+                  relative rounded-[32px] transition-all duration-500 ease-in-out flex flex-col overflow-hidden border
+                  ${isExpanded 
+                    ? 'bg-white dark:bg-[#1C1C1E] shadow-2xl ring-1 ring-apple-blue/20 scale-[1.02] z-10 md:col-span-1' 
+                    : service.comingSoon 
+                      ? 'bg-gray-100/50 dark:bg-white/5 border-dashed border-gray-200 dark:border-white/10 opacity-70 grayscale-[0.5]' 
+                      : 'bg-white dark:bg-[#1C1C1E] shadow-sm hover:shadow-lg border-transparent dark:border-white/5 hover:border-gray-200 dark:hover:border-white/20'
+                  }
+                `}
+              >
+                <button
+                  onClick={() => toggleService(service.id, service.comingSoon)}
+                  disabled={service.comingSoon}
+                  className={`p-8 text-left w-full h-full flex flex-col ${service.comingSoon ? 'cursor-default' : 'cursor-pointer'}`}
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div className={`p-3 rounded-2xl transition-all duration-300 ${isExpanded ? 'bg-apple-blue text-white' : 'bg-apple-bg dark:bg-white/5 text-apple-text dark:text-white group-hover:bg-apple-blue/10'}`}>
+                      <service.icon size={28} strokeWidth={1.5} />
+                    </div>
+                    
+                    {service.comingSoon ? (
+                      <span className="bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-white/40 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1">
+                        <Lock size={10} />
+                        Próximamente
+                      </span>
+                    ) : service.id === 'w-custom' && (
+                      <span className="bg-apple-blue/10 text-apple-blue text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1">
+                        <Zap size={10} fill="currentColor" />
+                        Premium
+                      </span>
+                    )}
+                  </div>
 
-                {service.id === 'w-custom' && (
-                  <span className="bg-apple-blue/10 text-apple-blue text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1">
-                    <Zap size={10} fill="currentColor" />
-                    Premium
-                  </span>
-                )}
-              </div>
+                  <h3 className={`text-xl font-semibold mb-3 ${service.comingSoon ? 'text-gray-400' : 'text-apple-text dark:text-white'}`}>
+                    {service.title}
+                  </h3>
+                  
+                  <p className={`text-base leading-relaxed ${isExpanded ? 'mb-4' : 'mb-8'} transition-all ${service.comingSoon ? 'text-gray-400' : 'text-apple-subtext dark:text-white/40'}`}>
+                    {service.description}
+                  </p>
 
-              <h3 className={`text-xl font-semibold mb-3 ${service.comingSoon ? 'text-gray-400' : 'text-apple-text dark:text-white'}`}>
-                {service.title}
-              </h3>
-              
-              <p className={`text-base leading-relaxed mb-8 flex-grow ${service.comingSoon ? 'text-gray-400' : 'text-apple-subtext dark:text-white/40'}`}>
-                {service.description}
-              </p>
+                  {!service.comingSoon && (
+                    <div className={`flex justify-between items-center w-full pt-6 transition-all border-t border-gray-50 dark:border-white/5 ${isExpanded ? 'opacity-0 h-0 p-0 pointer-events-none' : 'opacity-100'}`}>
+                      <span className="text-sm font-medium text-apple-blue">
+                        {service.customPricing ? 'Consultar' : 'Ver detalles'}
+                      </span>
+                      <ChevronDown size={18} className="text-apple-blue" />
+                    </div>
+                  )}
+                </button>
 
-              {!service.comingSoon && (
-                <div className="flex justify-between items-center mt-auto w-full pt-6 border-t border-gray-50 dark:border-white/5">
-                  <span className="text-sm font-medium text-apple-blue group-hover:translate-x-1 transition-transform">
-                    {service.customPricing ? 'Consultar proyecto' : 'Ver precios'}
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-apple-bg dark:bg-white/10 flex items-center justify-center text-apple-text dark:text-white group-hover:bg-apple-blue group-hover:text-white transition-all shadow-sm">
-                    <span className="text-xl leading-none mb-1">+</span>
+                {/* Expanded Content Area */}
+                <div 
+                  className={`
+                    px-8 overflow-hidden transition-all duration-500 ease-in-out
+                    ${isExpanded ? 'max-h-[800px] pb-8 opacity-100' : 'max-h-0 opacity-0'}
+                  `}
+                >
+                  <div className="pt-4 space-y-6">
+                    <p className="text-apple-text/80 dark:text-white/70 leading-relaxed text-sm">
+                      {service.longDescription}
+                    </p>
+
+                    <div className="bg-apple-bg dark:bg-white/5 rounded-2xl p-6 border border-gray-100 dark:border-white/5">
+                      <h4 className="text-[10px] uppercase tracking-wider text-apple-subtext dark:text-white/40 font-bold mb-4">
+                        {service.customPricing ? 'Consultoría' : 'Inversión'}
+                      </h4>
+                      
+                      {service.customPricing ? (
+                        <div className="space-y-4">
+                          <div className="flex items-start gap-3">
+                            <Check size={14} className="mt-1 text-apple-blue" />
+                            <p className="text-apple-text dark:text-white text-sm font-medium">Proyecto personalizado</p>
+                          </div>
+                          <button 
+                            onClick={() => onNavigate(ViewState.CONTACT)}
+                            className="w-full bg-apple-blue text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-600 transition-colors"
+                          >
+                            Solicitar presupuesto
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-apple-subtext dark:text-white/40">Implementación</span>
+                            <span className="font-semibold text-apple-text dark:text-white">{service.priceSetup}€</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-apple-subtext dark:text-white/40">Mantenimiento</span>
+                            <span className="font-semibold text-apple-text dark:text-white">{service.priceMonthly}€/mes</span>
+                          </div>
+                          <button 
+                            onClick={() => onNavigate(ViewState.CONTACT)}
+                            className="w-full mt-4 bg-black dark:bg-white dark:text-black text-white py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
+                          >
+                            Contratar ahora
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <button 
+                      onClick={() => setExpandedServiceId(null)}
+                      className="w-full text-xs text-apple-subtext dark:text-white/30 hover:text-apple-text dark:hover:text-white transition-colors py-2"
+                    >
+                      Cerrar detalles
+                    </button>
                   </div>
                 </div>
-              )}
-            </button>
-          ))}
+              </div>
+            );
+          })}
         </div>
       </div>
-
-      {/* Modal Overlay */}
-      {selectedService && (
-        <div className="fixed inset-0 z-[100] grid place-items-center p-4">
-          <div 
-            className="absolute inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-xl transition-opacity animate-fade-in"
-            onClick={() => setSelectedService(null)}
-          ></div>
-          
-          <div 
-            ref={modalRef}
-            className="relative bg-white dark:bg-[#1C1C1E] rounded-[40px] shadow-[0_32px_128px_rgba(0,0,0,0.3)] dark:shadow-none w-full max-w-2xl p-8 md:p-14 overflow-hidden animate-scale-up max-h-[90vh] overflow-y-auto z-10 border dark:border-white/10"
-          >
-            <button 
-              onClick={() => setSelectedService(null)}
-              className="absolute top-8 right-8 w-10 h-10 bg-apple-bg dark:bg-white/10 rounded-full flex items-center justify-center text-apple-subtext dark:text-white hover:bg-gray-200 dark:hover:bg-white/20 transition-colors z-20"
-            >
-              <X size={20} />
-            </button>
-
-            <div className="flex items-center gap-5 mb-8">
-              <div className="p-4 bg-apple-blue/10 text-apple-blue rounded-[24px]">
-                <selectedService.icon size={36} strokeWidth={1.5} />
-              </div>
-              <h3 className="text-3xl md:text-4xl font-semibold text-apple-text dark:text-white tracking-tight">
-                {selectedService.id === 'w-custom' ? 'Tu Desafío Tecnológico' : selectedService.title}
-              </h3>
-            </div>
-
-            <p className="text-xl text-apple-text dark:text-white/80 leading-relaxed mb-10 border-b border-gray-100 dark:border-white/5 pb-10">
-              {selectedService.longDescription}
-            </p>
-
-            <div className="bg-apple-bg dark:bg-white/5 rounded-[32px] p-8 md:p-10 border border-gray-100 dark:border-white/5 shadow-inner">
-              <h4 className="text-[10px] uppercase tracking-[0.2em] text-apple-subtext dark:text-white/40 font-bold mb-8">
-                {selectedService.id === 'w-custom' ? 'Consultoría Gratuita' : 'Inversión Estimada'}
-              </h4>
-              
-              {selectedService.customPricing ? (
-                <div className="flex flex-col gap-6">
-                   <div className="flex items-start gap-4">
-                      <div className="mt-1 p-1 bg-apple-blue text-white rounded-full">
-                        <Check size={16} />
-                      </div>
-                      <p className="text-apple-text dark:text-white font-semibold text-xl">
-                        {selectedService.id === 'w-custom' ? 'Presupuesto bajo análisis' : 'Proyecto a medida'}
-                      </p>
-                   </div>
-                   <p className="text-apple-subtext dark:text-white/40 text-base leading-relaxed pl-10">
-                     {selectedService.id === 'w-custom' 
-                       ? "Analizamos tus cuellos de botella específicos y desarrollamos un Agente de IA capaz de resolverlos. Diseñamos una arquitectura escalable desde cero."
-                       : "Analizamos tus requerimientos técnicos para ofrecerte un presupuesto ajustado y escalable."
-                     }
-                   </p>
-                   <div className="pl-10 pt-2">
-                      <button 
-                        onClick={() => {
-                          setSelectedService(null);
-                          onNavigate(ViewState.CONTACT);
-                        }}
-                        className="bg-apple-blue text-white px-8 py-3.5 rounded-full font-medium hover:bg-blue-600 transition-all shadow-md active:scale-95"
-                      >
-                        {selectedService.id === 'w-custom' ? 'Plantear mi Reto' : 'Hablar con un experto'} &rarr;
-                      </button>
-                   </div>
-                </div>
-              ) : (
-                <div className="space-y-8">
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                    <div>
-                      <span className="block text-apple-text dark:text-white font-semibold text-xl">Implementación</span>
-                      <span className="text-sm text-apple-subtext dark:text-white/40">Configuración inicial y despliegue total.</span>
-                    </div>
-                    <div className="text-3xl font-bold text-apple-text dark:text-white tabular-nums">
-                      {selectedService.priceSetup}€
-                    </div>
-                  </div>
-
-                  <div className="w-full h-px bg-gray-200 dark:bg-white/10"></div>
-
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                    <div>
-                      <span className="block text-apple-text dark:text-white font-semibold text-xl">Mantenimiento</span>
-                      <span className="text-sm text-apple-subtext dark:text-white/40">Soporte, optimización y hosting IA.</span>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-apple-text dark:text-white tabular-nums">{selectedService.priceMonthly}€</span>
-                      <span className="text-sm text-apple-subtext dark:text-white/40 font-medium">/mes</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-              <p className="text-[10px] text-apple-subtext dark:text-white/30 max-w-[240px] leading-relaxed text-center sm:text-left">
-                * Precios orientativos. IVA no incluido. Sujeto a revisión técnica.
-              </p>
-              <button 
-                 onClick={() => setSelectedService(null)}
-                 className="w-full sm:w-auto px-10 py-4 bg-black dark:bg-white dark:text-black text-white rounded-full font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition-all active:scale-95 shadow-xl"
-              >
-                Cerrar Detalles
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };
