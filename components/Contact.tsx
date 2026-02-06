@@ -1,10 +1,13 @@
+
 import React, { useState } from 'react';
 import { Send, CheckCircle, ChevronDown, Loader2 } from 'lucide-react';
+import PrivacyModal from './PrivacyModal';
 
 const Contact: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -135,7 +138,7 @@ const Contact: React.FC = () => {
                 ></textarea>
               </div>
 
-              {/* GDPR Compliance Checkbox */}
+              {/* GDPR Compliance Checkbox with Modal Trigger */}
               <div className="flex items-start gap-3 px-1 py-2">
                 <div className="flex items-center h-5">
                   <input
@@ -149,7 +152,7 @@ const Contact: React.FC = () => {
                   />
                 </div>
                 <label htmlFor="privacy" className="text-xs text-apple-subtext dark:text-white/40 leading-tight cursor-pointer select-none">
-                  He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener noreferrer" className="text-apple-blue hover:underline">política de privacidad</a>.
+                  He leído y acepto la <button type="button" onClick={() => setShowPrivacy(true)} className="text-apple-blue hover:underline">política de privacidad</button>.
                 </label>
               </div>
 
@@ -182,6 +185,9 @@ const Contact: React.FC = () => {
             <p className="text-apple-text dark:text-white font-medium">contacto@corestudios.com</p>
         </div>
       </div>
+
+      {/* Privacy Modal rendering */}
+      {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
     </section>
   );
 };
