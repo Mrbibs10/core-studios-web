@@ -1,9 +1,10 @@
-
 import React, { useState } from 'react';
-import { Send, CheckCircle, ChevronDown } from 'lucide-react';
+import { Send, CheckCircle, ChevronDown, Loader2, AlertCircle } from 'lucide-react';
 
 const Contact: React.FC = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // Estado para controlar el proceso de envío
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,20 +12,41 @@ const Contact: React.FC = () => {
     message: ''
   });
 
+  // 🔴 ¡IMPORTANTE! PEGA TU ENLACE DE FORMSPREE AQUÍ DENTRO DE LAS COMILLAS
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgolewar";
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTimeout(() => {
-      setIsSubmitted(true);
-      const serviceLabel = formData.service === 'WORKFLOWS' ? 'Workflows' : 
-                           formData.service === 'WEB' ? 'Desarrollo Web' : 'Domótica';
-      
-      const body = `Nombre: ${formData.name}%0D%0AServicio: ${serviceLabel}%0D%0A%0D%0AMensaje:%0D%0A${formData.message}`;
-      window.location.href = `mailto:contacto@corestudios.com?subject=Consulta de ${formData.name} - ${serviceLabel}&body=${body}`;
-    }, 1000);
+    setStatus('submitting');
+
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('email', formData.email);
+    data.append('service', formData.service);
+    data.append('message', formData.message);
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', service: 'WORKFLOWS', message: '' }); // Limpiar formulario
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
   };
 
   return (
@@ -39,16 +61,16 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="bg-white dark:bg-[#1C1C1E] rounded-[40px] p-8 md:p-12 shadow-sm border border-gray-100 dark:border-white/10">
-          {isSubmitted ? (
+          {status === 'success' ? (
             <div className="py-20 flex flex-col items-center justify-center text-center space-y-6 animate-fade-in">
               <CheckCircle size={64} className="text-green-500" strokeWidth={1.5} />
               <h3 className="text-2xl font-semibold text-apple-text dark:text-white">Mensaje Enviado</h3>
-              <p className="text-apple-subtext dark:text-white/40">Te responderemos en breve.</p>
+              <p className="text-apple-subtext dark:text-white/40">Gracias por contactar. Te responderemos en breve.</p>
               <button 
-                onClick={() => setIsSubmitted(false)}
-                className="text-apple-blue font-medium hover:underline"
+                onClick={() => setStatus('idle')}
+                className="text-apple-blue font-medium hover:underline mt-4"
               >
-                Volver al formulario
+                Enviar otra consulta
               </button>
             </div>
           ) : (
@@ -95,6 +117,7 @@ const Contact: React.FC = () => {
                     <option value="WORKFLOWS">Workflows / Automatización</option>
                     <option value="WEB">Desarrollo Web</option>
                     <option value="DOMOTICA">Domótica / Espacios Inteligentes</option>
+                    <option value="CONSULTORIA">Consultoría General</option>
                   </select>
                   <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-apple-subtext pointer-events-none" size={18} />
                 </div>
@@ -117,23 +140,5 @@ const Contact: React.FC = () => {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full bg-black dark:bg-white dark:text-black text-white font-medium py-4 rounded-full hover:bg-gray-800 dark:hover:bg-gray-200 hover:-translate-y-1 hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
-                >
-                  Enviar consulta
-                  <Send size={16} />
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-        
-        <div className="mt-12 text-center space-y-2">
-            <p className="text-apple-subtext dark:text-white/30 text-sm">O contáctanos directamente:</p>
-            <p className="text-apple-text dark:text-white font-medium">contacto@corestudios.com</p>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default Contact;
+                  disabled={status === 'submitting'}
+                  className="w-full bg-black dark:bg-white dark:text-black text-white font-medium py-4 rounded-full hover:bg-gray-800 dark:hover:bg-gray-200 hover:-translate-y-
