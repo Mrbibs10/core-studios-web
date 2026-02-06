@@ -28,6 +28,7 @@
             animation: {
               'fade-in': 'fadeIn 0.5s ease-out forwards',
               'scale-up': 'scaleUp 0.3s ease-out forwards',
+              'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
               fadeIn: {
@@ -37,6 +38,10 @@
               scaleUp: {
                 '0%': { opacity: '0', transform: 'scale(0.95)' },
                 '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
               }
             }
           }
@@ -102,10 +107,8 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body class="bg-apple-bg dark:bg-black text-apple-text dark:text-white antialiased transition-colors duration-500 overflow-x-hidden">
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+  </body>
 </html>
