@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ViewState, NavItem } from './types';
+import { ViewState, NavItem, ServiceCategory } from './types';
 import Hero from './components/Hero';
 import Services from './components/Workflows';
 import About from './components/About';
@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>(ViewState.HOME);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [preselectedService, setPreselectedService] = useState<ServiceCategory | undefined>(undefined);
 
   useEffect(() => {
     let scrollTimeout: number;
@@ -38,8 +39,9 @@ const App: React.FC = () => {
     { id: ViewState.CONTACT, label: 'Contacto' },
   ];
 
-  const handleNavClick = (view: ViewState) => {
+  const handleNavClick = (view: ViewState, service?: ServiceCategory) => {
     setCurrentView(view);
+    setPreselectedService(service);
     setIsMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -58,7 +60,7 @@ const App: React.FC = () => {
       case ViewState.ABOUT:
         return <About />;
       case ViewState.CONTACT:
-        return <Contact />;
+        return <Contact initialService={preselectedService} />;
       case ViewState.TERMS:
         return <Legal view={ViewState.TERMS} onBack={() => handleNavClick(ViewState.HOME)} />;
       case ViewState.PRIVACY:
