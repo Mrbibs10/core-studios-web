@@ -22,7 +22,7 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
     message: ''
   });
 
-  // ✅ TU ENLACE REAL YA CONFIGURADO
+  // 🔴 PEGA TU ENLACE AQUÍ (ej: https://formspree.io/f/mgolewar)
   const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgolewar"; 
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
 
       if (response.ok) {
         setIsSubmitted(true);
-        setFormData(prev => ({ ...prev, message: '' })); // Limpiamos el mensaje
+        setFormData(prev => ({ ...prev, message: '' })); 
       } else {
         setIsError(true);
       }
@@ -120,4 +120,73 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
               </div>
 
               <div className="relative">
-                <label className="block text-sm font-medium text-[#1d1d
+                <label className="block text-sm font-medium text-[#1d1d1f] mb-2 ml-1">Servicio</label>
+                <div className="relative">
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full bg-[#F5F5F7] border border-transparent rounded-2xl px-5 py-4 text-[#1d1d1f] appearance-none focus:ring-2 focus:ring-[#0066CC]/20 focus:bg-white outline-none cursor-pointer transition-all"
+                  >
+                    <option value="WORKFLOWS">Workflows / IA</option>
+                    <option value="WEB">Desarrollo Web</option>
+                    <option value="DOMOTICA">Domótica</option>
+                  </select>
+                  <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-[#86868b] pointer-events-none" size={18} />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#1d1d1f] mb-2 ml-1">Mensaje</label>
+                <textarea
+                  name="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full bg-[#F5F5F7] border border-transparent rounded-2xl px-5 py-4 text-[#1d1d1f] focus:ring-2 focus:ring-[#0066CC]/20 focus:bg-white outline-none transition-all resize-none placeholder-gray-400"
+                  placeholder="¿Cómo podemos ayudarte?"
+                ></textarea>
+              </div>
+
+              <div className="flex items-start gap-3 px-1 py-2">
+                <input
+                  type="checkbox"
+                  required
+                  checked={acceptedPrivacy}
+                  onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                  className="mt-1 w-4 h-4 text-[#1d1d1f] border-gray-300 rounded focus:ring-[#1d1d1f] cursor-pointer"
+                />
+                <label className="text-xs text-[#86868b] leading-tight">
+                  He leído y acepto la <button type="button" onClick={() => setShowPrivacy(true)} className="text-[#0066CC] hover:underline">política de privacidad</button>.
+                </label>
+              </div>
+
+              {isError && (
+                <div className="flex items-center gap-2 text-red-500 text-sm justify-center bg-red-50 p-3 rounded-xl border border-red-100">
+                  <AlertCircle size={16} />
+                  <span>Hubo un error al enviar. Por favor, inténtalo de nuevo.</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={!acceptedPrivacy || isLoading}
+                className={`w-full font-medium py-4 rounded-full transition-all flex items-center justify-center gap-2 shadow-sm text-lg
+                  ${acceptedPrivacy && !isLoading 
+                    ? 'bg-[#1d1d1f] text-white hover:bg-black hover:scale-[1.02] active:scale-[0.98]' 
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  }`}
+              >
+                {isLoading ? <Loader2 size={24} className="animate-spin" /> : <>Enviar <Send size={18} className="ml-1" /></>}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+      {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+    </section>
+  );
+};
+
+export default Contact;
