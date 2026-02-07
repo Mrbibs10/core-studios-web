@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { WorkflowCardProps, ServiceCategory, ViewState } from '../types';
 import { 
-  Mail, Sparkles, BarChart3, Package, Lock, Bot, 
-  Globe, ShoppingBag, Layout, Lightbulb, Home, Zap, X, Check, Wand2, ChevronDown 
+  Mail, Sparkles, BarChart3, Globe, ShoppingBag, Lightbulb, 
+  Wand2, ChevronDown, Mic, MessageSquare, LayoutDashboard, Home 
 } from 'lucide-react';
 
 const servicesData: WorkflowCardProps[] = [
+  // --- WORKFLOWS ---
   {
     id: 'w1',
     category: 'WORKFLOWS',
@@ -39,6 +40,25 @@ const servicesData: WorkflowCardProps[] = [
     comingSoon: false
   },
   {
+    id: 'w3',
+    category: 'WORKFLOWS',
+    title: "Voice AI Agent",
+    description: "Asistente de voz inteligente para llamadas.",
+    longDescription: "Agente de voz capaz de agendar citas y resolver dudas frecuentes por teléfono de forma natural.",
+    icon: Mic,
+    comingSoon: true
+  },
+  {
+    id: 'w4',
+    category: 'WORKFLOWS',
+    title: "WhatsApp Business IA",
+    description: "Atención al cliente 24/7 automatizada.",
+    longDescription: "Chatbot avanzado conectado a tu base de datos para responder clientes instantáneamente.",
+    icon: MessageSquare,
+    comingSoon: true
+  },
+  // --- WEB ---
+  {
     id: 'web1',
     category: 'WEB',
     title: "Web Corporativa",
@@ -59,6 +79,16 @@ const servicesData: WorkflowCardProps[] = [
     comingSoon: false
   },
   {
+    id: 'web3',
+    category: 'WEB',
+    title: "Dashboard KPI",
+    description: "Visualización de datos en tiempo real.",
+    longDescription: "Panel de control centralizado para monitorizar todas las métricas de tu negocio.",
+    icon: LayoutDashboard,
+    comingSoon: true
+  },
+  // --- DOMOTICA ---
+  {
     id: 'dom1',
     category: 'DOMOTICA',
     title: "Oficinas Inteligentes",
@@ -67,11 +97,21 @@ const servicesData: WorkflowCardProps[] = [
     customPricing: true,
     icon: Lightbulb,
     comingSoon: false
+  },
+  {
+    id: 'dom2',
+    category: 'DOMOTICA',
+    title: "Casas Inteligentes",
+    description: "Climatización, persianas e iluminación integrada.",
+    longDescription: "Transformamos tu hogar en un espacio eficiente y confortable. Control total de persianas, luces y clima desde una única interfaz intuitiva.",
+    customPricing: true,
+    icon: Home,
+    comingSoon: false
   }
 ];
 
 interface ServicesProps {
-  onNavigate: (view: ViewState) => void;
+  onNavigate: (view: ViewState, service?: ServiceCategory) => void;
 }
 
 const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
@@ -135,18 +175,25 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
                   relative rounded-[32px] transition-all duration-500 ease-in-out flex flex-col overflow-hidden border
                   ${isExpanded 
                     ? 'bg-white shadow-2xl ring-1 ring-apple-blue/10 scale-[1.02] z-10' 
-                    : 'bg-white shadow-sm hover:shadow-lg border-transparent hover:border-gray-200'
+                    : 'bg-white shadow-sm border-transparent'
                   }
+                  ${service.comingSoon ? 'opacity-70 grayscale-[0.5]' : 'hover:shadow-lg hover:border-gray-200'}
                 `}
               >
                 <button
                   onClick={() => toggleService(service.id, service.comingSoon)}
-                  className="p-8 text-left w-full h-full flex flex-col cursor-pointer"
+                  disabled={service.comingSoon}
+                  className={`p-8 text-left w-full h-full flex flex-col ${service.comingSoon ? 'cursor-default' : 'cursor-pointer'}`}
                 >
                   <div className="flex justify-between items-start mb-6">
                     <div className={`p-3 rounded-2xl transition-all duration-300 ${isExpanded ? 'bg-apple-blue text-white' : 'bg-apple-bg text-apple-text'}`}>
                       <service.icon size={28} strokeWidth={1.5} />
                     </div>
+                    {service.comingSoon && (
+                      <span className="bg-gray-100 text-apple-subtext text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                        Próximamente
+                      </span>
+                    )}
                   </div>
 
                   <h3 className="text-xl font-semibold mb-3 text-apple-text">
@@ -157,12 +204,14 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
                     {service.description}
                   </p>
 
-                  <div className={`flex justify-between items-center w-full pt-6 transition-all border-t border-gray-50 ${isExpanded ? 'opacity-0 h-0 p-0 pointer-events-none' : 'opacity-100'}`}>
-                    <span className="text-sm font-medium text-apple-blue">
-                      {service.customPricing ? 'Consultar' : 'Ver detalles'}
-                    </span>
-                    <ChevronDown size={18} className="text-apple-blue" />
-                  </div>
+                  {!service.comingSoon && (
+                    <div className={`flex justify-between items-center w-full pt-6 transition-all border-t border-gray-50 ${isExpanded ? 'opacity-0 h-0 p-0 pointer-events-none' : 'opacity-100'}`}>
+                      <span className="text-sm font-medium text-apple-blue">
+                        {service.customPricing ? 'Consultar' : 'Ver detalles'}
+                      </span>
+                      <ChevronDown size={18} className="text-apple-blue" />
+                    </div>
+                  )}
                 </button>
 
                 <div className={`px-8 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[800px] pb-8 opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -178,7 +227,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
                       
                       {service.customPricing ? (
                         <button 
-                          onClick={() => onNavigate(ViewState.CONTACT)}
+                          onClick={() => onNavigate(ViewState.CONTACT, service.category)}
                           className="w-full bg-apple-blue text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-600 transition-colors"
                         >
                           Solicitar presupuesto
@@ -189,8 +238,14 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
                             <span className="text-xs text-apple-subtext">Implementación</span>
                             <span className="font-semibold text-apple-text">{service.priceSetup}€</span>
                           </div>
+                          {service.priceMonthly && (
+                            <div className="flex justify-between items-center pt-2 border-t border-gray-200/40">
+                              <span className="text-xs text-apple-subtext">Mantenimiento mensual</span>
+                              <span className="font-semibold text-apple-text">{service.priceMonthly}€/mes</span>
+                            </div>
+                          )}
                           <button 
-                            onClick={() => onNavigate(ViewState.CONTACT)}
+                            onClick={() => onNavigate(ViewState.CONTACT, service.category)}
                             className="w-full mt-4 bg-black text-white py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
                           >
                             Contratar ahora
