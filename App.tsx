@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import PrivacyModal from './components/PrivacyModal';
 import CookiesModal from './components/CookiesModal';
 import CookiesBanner from './components/CookiesBanner';
+import AnalyticsTracker from './components/AnalyticsTracker';
 import { Menu, X } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -18,16 +19,23 @@ const App: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [preselectedService, setPreselectedService] = useState<ServiceCategory | undefined>(undefined);
   
-  // Estados para Modales y Banner
+  // Estados para Privacidad y Cookies
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showCookiesModal, setShowCookiesModal] = useState(false);
   const [showCookiesBanner, setShowCookiesBanner] = useState(false);
+  
+  // Estado de consentimiento para Analytics
+  const [cookieConsent, setCookieConsent] = useState(false);
 
   useEffect(() => {
-    // Comprobar si ya se aceptaron las cookies
+    // Comprobar si ya se aceptaron las cookies en visitas anteriores
     const accepted = localStorage.getItem('core-studios-cookies-accepted');
-    if (!accepted) {
-      setTimeout(() => setShowCookiesBanner(true), 2000);
+    if (accepted === 'true') {
+      setCookieConsent(true);
+      setShowCookiesBanner(false);
+    } else {
+      // Mostrar el banner tras un pequeño retraso para mejorar la UX (Apple Style)
+      setTimeout(() => setShowCookiesBanner(true), 1500);
     }
 
     let scrollTimeout: number;
@@ -51,7 +59,6 @@ const App: React.FC = () => {
     { id: ViewState.HOME, label: 'Inicio' },
     { id: ViewState.SERVICES, label: 'Servicios' },
     { id: ViewState.ABOUT, label: 'Nosotros' },
-    { id: ViewState.CONTACT, label: 'Contacto' },
   ];
 
   const handleNavClick = (view: ViewState, service?: ServiceCategory) => {
@@ -63,6 +70,7 @@ const App: React.FC = () => {
 
   const handleAcceptCookies = () => {
     localStorage.setItem('core-studios-cookies-accepted', 'true');
+    setCookieConsent(true);
     setShowCookiesBanner(false);
   };
 
@@ -93,6 +101,9 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-apple-blue selection:text-white bg-apple-bg w-full overflow-x-hidden relative">
       
+      {/* Componente de Rastreo de Analytics (Inyecta scripts solo si cookieConsent es true) */}
+      <AnalyticsTracker isEnabled={cookieConsent} />
+
       {/* Navigation Bar */}
       <nav 
         className={`fixed top-0 w-full z-[60] transition-all duration-500 ${
@@ -168,6 +179,12 @@ const App: React.FC = () => {
                   {item.label}
                 </button>
               ))}
+              <button
+                onClick={() => handleNavClick(ViewState.CONTACT)}
+                className="mt-2 bg-black text-white text-center font-medium py-3 rounded-xl active:scale-95 transition-transform"
+              >
+                Consultar
+              </button>
             </div>
           </div>
         )}
