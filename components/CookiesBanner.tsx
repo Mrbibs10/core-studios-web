@@ -5,6 +5,12 @@ interface CookiesBannerProps {
   onConfigure: () => void;
 }
 
+/**
+ * CookiesBanner implementado con estética Apple:
+ * - Glassmorphism (backdrop-blur)
+ * - Bordes suaves y sombras sutiles
+ * - Animación de entrada suave
+ */
 const CookiesBanner: React.FC<CookiesBannerProps> = ({ onAccept, onConfigure }) => {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[90] p-6 animate-fade-in">
@@ -14,19 +20,21 @@ const CookiesBanner: React.FC<CookiesBannerProps> = ({ onAccept, onConfigure }) 
             <p className="text-sm md:text-base text-apple-text font-medium leading-relaxed">
               Utilizamos cookies para mejorar tu experiencia. 
               <span className="text-apple-subtext font-normal ml-1">
-                Al continuar navegando, aceptas nuestro uso de tecnologías de seguimiento.
+                Al aceptar, permites el uso de analíticas para ayudarnos a mejorar el servicio.
               </span>
             </p>
           </div>
           
           <div className="flex items-center gap-4 shrink-0">
             <button 
+              type="button"
               onClick={onConfigure}
               className="text-xs md:text-sm font-medium text-apple-subtext hover:text-apple-text transition-colors px-4 py-2"
             >
               Configurar
             </button>
             <button 
+              type="button"
               onClick={onAccept}
               className="bg-black text-white text-xs md:text-sm font-semibold px-8 py-3 rounded-full hover:bg-gray-800 transition-all active:scale-95 shadow-sm"
             >
