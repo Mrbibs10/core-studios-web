@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle, ChevronDown, Loader2 } from 'lucide-react';
+import { ServiceCategory } from '../types';
 import PrivacyModal from './PrivacyModal';
 
-const Contact: React.FC = () => {
+interface ContactProps {
+  initialService?: ServiceCategory;
+}
+
+const Contact: React.FC<ContactProps> = ({ initialService }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
@@ -10,9 +15,16 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    service: 'WORKFLOWS',
+    service: initialService || 'WORKFLOWS',
     message: ''
   });
+
+  // Aseguramos que si el servicio inicial cambia, el formulario se actualice (ej: navegar de un servicio a otro sin recargar)
+  useEffect(() => {
+    if (initialService) {
+      setFormData(prev => ({ ...prev, service: initialService }));
+    }
+  }, [initialService]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
