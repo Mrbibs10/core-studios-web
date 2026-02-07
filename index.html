@@ -3,22 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Core Studios - Automatización Inteligente</title>
-    <meta name="description" content="Transformando empresas en Mallorca con automatización de workflows desde Inca." />
+    
+    <title>Core Studios | Automatización e Inteligencia Artificial</title>
+    <meta name="description" content="Transformamos tu negocio en Mallorca con Automatización, Inteligencia Artificial y Desarrollo Web de alto nivel." />
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://core-studios-web.vercel.app/" />
+    <meta property="og:title" content="Core Studios | Automatización Inteligente" />
+    <meta property="og:description" content="Simplificamos lo complejo. Diseñamos flujos de trabajo que devuelven el tiempo a tu negocio." />
+    <meta property="og:image" content="https://core-studios-web.vercel.app/og-image.png" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://core-studios-web.vercel.app/" />
+    <meta property="twitter:title" content="Core Studios | Automatización Inteligente" />
+    <meta property="twitter:description" content="Simplificamos lo complejo. Diseñamos flujos de trabajo que devuelven el tiempo a tu negocio." />
+    <meta property="twitter:image" content="https://core-studios-web.vercel.app/og-image.png" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
-        // Modo oscuro desactivado a nivel de configuración
         theme: {
           extend: {
             colors: {
               apple: {
-                bg: '#F5F5F7',      
-                card: '#FFFFFF',    
-                text: '#1d1d1f',    
-                subtext: '#86868b', 
-                blue: '#0071e3',    
-                dark: '#1d1d1f',    
+                bg: '#F5F5F7',       
+                card: '#FFFFFF',     
+                text: '#1d1d1f',     
+                subtext: '#86868b',  
+                blue: '#0071e3',     
+                dark: '#1d1d1f',     
               }
             },
             fontFamily: {
@@ -89,21 +102,19 @@
         overflow-x: hidden;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
-  }
-}
-</script>
-</head>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.4",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+        "react/": "https://esm.sh/react@^19.2.4/",
+        "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+      }
+    }
+    </script>
+  </head>
   <body class="bg-apple-bg text-apple-text antialiased overflow-x-hidden">
     <div id="root"></div>
-    
     <script type="module" src="/index.tsx"></script>
-    
   </body>
 </html>
