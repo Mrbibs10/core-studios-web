@@ -6,6 +6,10 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Legal from './components/Legal';
 import Process from './components/Process';
+import Footer from './components/Footer';
+import PrivacyModal from './components/PrivacyModal';
+import CookiesModal from './components/CookiesModal';
+import CookiesBanner from './components/CookiesBanner';
 import { Menu, X } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -13,8 +17,19 @@ const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [preselectedService, setPreselectedService] = useState<ServiceCategory | undefined>(undefined);
+  
+  // Estados para Modales y Banner
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showCookiesModal, setShowCookiesModal] = useState(false);
+  const [showCookiesBanner, setShowCookiesBanner] = useState(false);
 
   useEffect(() => {
+    // Comprobar si ya se aceptaron las cookies
+    const accepted = localStorage.getItem('core-studios-cookies-accepted');
+    if (!accepted) {
+      setTimeout(() => setShowCookiesBanner(true), 2000);
+    }
+
     let scrollTimeout: number;
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -44,6 +59,11 @@ const App: React.FC = () => {
     setPreselectedService(service);
     setIsMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleAcceptCookies = () => {
+    localStorage.setItem('core-studios-cookies-accepted', 'true');
+    setShowCookiesBanner(false);
   };
 
   const renderView = () => {
@@ -157,18 +177,21 @@ const App: React.FC = () => {
         {renderView()}
       </main>
 
-      <footer className="bg-white py-12 border-t border-gray-100 w-full overflow-x-hidden">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-apple-subtext text-xs">
-            &copy; {new Date().getFullYear()} Core Studios Automations. Inca, Mallorca.
-          </div>
-          <div className="flex gap-8 text-xs font-medium text-apple-subtext">
-            <button onClick={() => handleNavClick(ViewState.PRIVACY)} className="hover:text-apple-blue transition-colors">Privacidad</button>
-            <button onClick={() => handleNavClick(ViewState.TERMS)} className="hover:text-apple-blue transition-colors">Términos</button>
-            <a href="#" className="hover:text-apple-blue transition-colors">Instagram</a>
-          </div>
-        </div>
-      </footer>
+      <Footer 
+        onNavigate={handleNavClick} 
+        onOpenPrivacy={() => setShowPrivacy(true)}
+        onOpenCookies={() => setShowCookiesModal(true)}
+      />
+
+      {/* Modales y Banner */}
+      {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+      {showCookiesModal && <CookiesModal onClose={() => setShowCookiesModal(false)} />}
+      {showCookiesBanner && (
+        <CookiesBanner 
+          onAccept={handleAcceptCookies} 
+          onConfigure={() => setShowCookiesModal(true)} 
+        />
+      )}
     </div>
   );
 };
