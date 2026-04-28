@@ -9,7 +9,11 @@ const steps = [
 
 const Process: React.FC = () => {
   return (
-    <section className="py-32 px-6 bg-white transition-colors duration-500">
+    <section
+      id="proceso"
+      aria-label="Cómo trabajamos - Proceso de automatización en 3 pasos"
+      className="py-32 px-6 bg-white transition-colors duration-500"
+    >
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-20">
           <h2 className="text-3xl md:text-5xl font-semibold text-apple-text mb-4 tracking-tight">Cómo trabajamos.</h2>
@@ -22,10 +26,10 @@ const Process: React.FC = () => {
           {steps.map((step, idx) => (
             <div key={idx} className="flex flex-col items-center text-center group">
               <div className="relative mb-8">
-                <div className="w-20 h-20 rounded-full bg-apple-bg border border-gray-100 flex items-center justify-center text-apple-text group-hover:bg-apple-blue group-hover:text-white transition-all duration-300 shadow-sm group-hover:-translate-y-2">
+                <div className="w-20 h-20 rounded-full bg-apple-bg border border-gray-100 flex items-center justify-center text-apple-text group-hover:bg-apple-blue group-hover:text-white transition-all duration-300 shadow-sm group-hover:-translate-y-2" aria-hidden="true">
                   <step.icon size={32} strokeWidth={1.5} />
                 </div>
-                <div className="absolute -top-1 -right-1 w-7 h-7 bg-white border border-gray-100 rounded-full flex items-center justify-center text-[10px] font-bold text-apple-subtext">
+                <div className="absolute -top-1 -right-1 w-7 h-7 bg-white border border-gray-100 rounded-full flex items-center justify-center text-[10px] font-bold text-apple-subtext" aria-hidden="true">
                   {idx + 1}
                 </div>
               </div>

@@ -105,10 +105,11 @@ const App: React.FC = () => {
       <AnalyticsTracker isEnabled={cookieConsent} />
 
       {/* Navigation Bar */}
-      <nav 
+      <nav
+        aria-label="Navegación principal"
         className={`fixed top-0 w-full z-[60] transition-all duration-500 ${
-          scrolled || isMenuOpen 
-            ? 'bg-white/80 backdrop-blur-xl border-b border-gray-100 py-3 shadow-sm' 
+          scrolled || isMenuOpen
+            ? 'bg-white/80 backdrop-blur-xl border-b border-gray-100 py-3 shadow-sm'
             : 'bg-transparent py-6'
         }`}
       >
@@ -190,7 +191,7 @@ const App: React.FC = () => {
         )}
       </nav>
 
-      <main className="flex-grow animate-fade-in w-full overflow-x-hidden">
+      <main id="main-content" className="flex-grow animate-fade-in w-full overflow-x-hidden">
         {renderView()}
       </main>
 

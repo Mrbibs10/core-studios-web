@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://core-studios.es/sitemap.xml
+
+# Disallow admin or private paths (if any in the future)
+Disallow: /api/
+
+# Crawl-delay for polite bots
+Crawl-delay: 1

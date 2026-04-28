@@ -132,7 +132,11 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section className="min-h-screen py-32 px-6 bg-apple-bg transition-colors duration-500 overflow-x-hidden">
+    <section
+      id="servicios"
+      aria-label="Servicios de automatización, desarrollo web y domótica en Mallorca"
+      className="min-h-screen py-32 px-6 bg-apple-bg transition-colors duration-500 overflow-x-hidden"
+    >
       <div className="container mx-auto max-w-6xl">
         <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
           <div className="text-center md:text-left">
