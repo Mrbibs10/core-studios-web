@@ -32,7 +32,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center pt-32 pb-20 bg-white overflow-hidden">
+    <section
+      id="inicio"
+      aria-label="Inicio - Automatización e Inteligencia Artificial en Mallorca"
+      className="relative min-h-screen flex flex-col items-center pt-32 pb-20 bg-white overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50/50 rounded-full blur-[120px]"></div>
@@ -44,7 +48,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         {/* Badge superior */}
         <div className="inline-block mb-8 animate-fade-in">
           <span className="px-4 py-1.5 rounded-full bg-apple-bg text-[10px] font-bold tracking-[0.2em] text-apple-subtext uppercase border border-gray-100">
-            Automatización en Mallorca
+            Agencia de Automatización en Mallorca
           </span>
         </div>
 
@@ -77,34 +81,35 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </button>
         </div>
 
-        {/* Bento Grid de Servicios - Sustituye a los antiguos placeholders */}
+        {/* Bento Grid de Servicios */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left animate-fade-in" style={{ animationDelay: '300ms' }}>
           {bentoServices.map((service, index) => (
-            <div 
+            <article
               key={index}
               className="group bg-white rounded-[32px] p-10 border border-gray-100 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 ease-out cursor-default"
             >
-              <div className={`w-16 h-16 ${service.bgColor} ${service.iconColor} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500`}>
+              <div className={`w-16 h-16 ${service.bgColor} ${service.iconColor} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500`} aria-hidden="true">
                 <service.icon size={32} strokeWidth={1.5} />
               </div>
-              
+
               <h3 className="text-2xl font-bold text-apple-text mb-4 tracking-tight">
                 {service.title}
               </h3>
-              
+
               <p className="text-[16px] leading-relaxed text-apple-subtext font-light">
                 {service.text}
               </p>
-              
+
               <div className="mt-8 pt-8 border-t border-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <button 
+                <button
                   onClick={() => onNavigate(ViewState.SERVICES)}
                   className="text-sm font-semibold text-apple-blue flex items-center gap-1"
+                  aria-label={`Saber más sobre ${service.title}`}
                 >
-                  Saber más <ChevronRight size={14} />
+                  Saber más <ChevronRight size={14} aria-hidden="true" />
                 </button>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
@@ -112,5 +117,6 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     </section>
   );
 };
+
 
 export default Hero;

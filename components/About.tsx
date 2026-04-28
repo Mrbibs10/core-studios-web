@@ -3,7 +3,11 @@ import { MapPin, Quote } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
-    <section className="min-h-screen py-32 px-6 bg-apple-bg flex flex-col items-center justify-center overflow-hidden">
+    <section
+      id="nosotros"
+      aria-label="Sobre nosotros - Core Studios en Inca, Mallorca"
+      className="min-h-screen py-32 px-6 bg-apple-bg flex flex-col items-center justify-center overflow-hidden"
+    >
       <div className="container mx-auto max-w-4xl relative">
         
         {/* Manifiesto / Carta de Marca */}
@@ -23,6 +27,7 @@ const About: React.FC = () => {
                 Ingeniería local.<br />
                 <span className="text-apple-subtext/60">Impacto global.</span>
               </h2>
+              <p className="sr-only">Agencia de automatización e inteligencia artificial con sede en Inca, Mallorca.</p>
             </header>
 
             <div className="space-y-8 text-lg md:text-2xl text-apple-subtext font-light leading-relaxed">

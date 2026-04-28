@@ -66,7 +66,11 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
   };
 
   return (
-    <section id="contact" className="min-h-screen pt-32 pb-20 px-6 bg-[#F5F5F7] flex justify-center">
+    <section
+      id="contacto"
+      aria-label="Formulario de contacto - Solicita presupuesto de automatización"
+      className="min-h-screen pt-32 pb-20 px-6 bg-[#F5F5F7] flex justify-center"
+    >
       <div className="container max-w-xl">
         
         <div className="text-center mb-12">
