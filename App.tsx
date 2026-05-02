@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { ViewState, NavItem, ServiceCategory } from './types';
 import Hero from './components/Hero';
+import Process from './components/Process';
+import Portfolio from './components/Portfolio';
 import Footer from './components/Footer';
 import PrivacyModal from './components/PrivacyModal';
 import CookiesModal from './components/CookiesModal';
@@ -13,8 +15,6 @@ const Services = lazy(() => import('./components/Workflows'));
 const About = lazy(() => import('./components/About'));
 const Contact = lazy(() => import('./components/Contact'));
 const Legal = lazy(() => import('./components/Legal'));
-const Process = lazy(() => import('./components/Process'));
-const Portfolio = lazy(() => import('./components/Portfolio'));
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>(ViewState.HOME);
@@ -126,7 +126,7 @@ const App: React.FC = () => {
       <nav
         aria-label="Navegación principal"
         className={`fixed top-0 w-full z-[60] transition-all duration-500 ${
-          scrolled || isMenuOpen
+          scrolled || isMenuOpen || currentView !== ViewState.HOME
             ? 'bg-white/80 backdrop-blur-xl border-b border-gray-100 py-3 shadow-sm'
             : 'bg-transparent py-6'
         }`}
