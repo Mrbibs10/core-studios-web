@@ -21,7 +21,7 @@
     <meta name="theme-color" content="#0071e3" />
 
     <!-- Security Headers (fallback via meta for static hosting) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.googletagmanager.com https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://esm.sh; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" />
@@ -52,11 +52,11 @@
     <meta name="twitter:description" content="Transformamos tu negocio con Automatización, Inteligencia Artificial y Desarrollo Web. Inca, Mallorca." />
     <meta name="twitter:image" content="https://core-studios.es/og-image.png" />
 
-    <!-- Performance: Preconnect for external resources -->
+    <!-- Performance: Preconnect + non-blocking font load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
-    <link rel="dns-prefetch" href="https://formspree.io" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" /></noscript>
 
     <!-- JSON-LD Structured Data: LocalBusiness -->
     <script type="application/ld+json">
@@ -86,18 +86,9 @@
         "longitude": 2.9110
       },
       "areaServed": [
-        {
-          "@type": "City",
-          "name": "Inca"
-        },
-        {
-          "@type": "AdministrativeArea",
-          "name": "Mallorca"
-        },
-        {
-          "@type": "AdministrativeArea",
-          "name": "Illes Balears"
-        }
+        { "@type": "City", "name": "Inca" },
+        { "@type": "AdministrativeArea", "name": "Mallorca" },
+        { "@type": "AdministrativeArea", "name": "Illes Balears" }
       ],
       "serviceType": [
         "Automatización de procesos",
@@ -112,13 +103,11 @@
         "opens": "09:00",
         "closes": "18:00"
       },
-      "sameAs": [
-        "https://www.instagram.com/corestudios"
-      ]
+      "sameAs": ["https://www.instagram.com/corestudios"]
     }
     </script>
 
-    <!-- JSON-LD Structured Data: WebSite with SearchAction -->
+    <!-- JSON-LD Structured Data: WebSite -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -176,122 +165,6 @@
           }
         }
       ]
-    }
-    </script>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              apple: {
-                bg: '#F5F5F7',
-                card: '#FFFFFF',
-                text: '#1d1d1f',
-                subtext: '#86868b',
-                blue: '#0071e3',
-                dark: '#1d1d1f',
-              }
-            },
-            fontFamily: {
-              sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            },
-            animation: {
-              'fade-in': 'fadeIn 0.5s ease-out forwards',
-              'scale-up': 'scaleUp 0.3s ease-out forwards',
-              'float': 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0', transform: 'translateY(10px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              scaleUp: {
-                '0%': { opacity: '0', transform: 'scale(0.95)' },
-                '100%': { opacity: '1', transform: 'scale(1)' },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-      html {
-        scroll-behavior: smooth;
-        overflow-x: hidden;
-        width: 100%;
-        background-color: #F5F5F7;
-      }
-
-      body {
-        font-family: 'Inter', sans-serif;
-        overflow-x: hidden;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        color: #1d1d1f;
-        background-color: #F5F5F7;
-      }
-
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background-color: rgba(0,0,0,0.1);
-        border-radius: 10px;
-      }
-
-      .scrolling::-webkit-scrollbar-thumb {
-        background-color: rgba(0,0,0,0.25);
-      }
-
-      #root {
-        width: 100%;
-        overflow-x: hidden;
-      }
-
-      /* Scroll reveal */
-      .reveal {
-        opacity: 0;
-        transform: translateY(28px);
-        transition: opacity 0.65s ease-out, transform 0.65s ease-out;
-      }
-      .reveal.reveal-visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .reveal-delay-1 { transition-delay: 100ms; }
-      .reveal-delay-2 { transition-delay: 200ms; }
-      .reveal-delay-3 { transition-delay: 350ms; }
-
-      @media (prefers-reduced-motion: reduce) {
-        .reveal {
-          opacity: 1;
-          transform: none;
-          transition: none;
-        }
-      }
-    </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@^19.2.4",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-        "react/": "https://esm.sh/react@^19.2.4/",
-        "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
-      }
     }
     </script>
   </head>
