@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import { ViewState, NavItem, ServiceCategory } from './types';
 import Hero from './components/Hero';
 import Process from './components/Process';
@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [preselectedService, setPreselectedService] = useState<ServiceCategory | undefined>(undefined);
+  const hasNavigated = useRef(false);
 
   useDocumentMeta(currentView);
 
@@ -80,6 +81,7 @@ const App: React.FC = () => {
   ];
 
   const handleNavClick = (view: ViewState, service?: ServiceCategory) => {
+    hasNavigated.current = true;
     setCurrentView(view);
     setPreselectedService(service);
     setIsMenuOpen(false);
@@ -239,7 +241,7 @@ const App: React.FC = () => {
       {/* Main content — key triggers fade-in animation on every navigation */}
       <main id="main-content" className="flex-grow w-full overflow-x-hidden">
         <Suspense fallback={<div className="min-h-screen bg-apple-bg" aria-hidden="true" />}>
-          <div key={currentView} className="animate-fade-in">
+          <div key={currentView} className={hasNavigated.current ? 'animate-fade-in' : ''}>
             {renderView()}
           </div>
         </Suspense>

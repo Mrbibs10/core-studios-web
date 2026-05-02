@@ -62,12 +62,12 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </h1>
 
         {/* Sub-headline */}
-        <p className="text-xl md:text-2xl text-apple-subtext font-light max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in" style={{ animationDelay: '100ms' }}>
+        <p className="text-xl md:text-2xl text-apple-subtext font-light max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in" style={{ animationDelay: '60ms' }}>
           Simplificamos lo complejo. Diseñamos flujos de trabajo que devuelven el tiempo a tu negocio.
         </p>
 
         {/* Botones de acción principales */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24 animate-fade-in" style={{ animationDelay: '200ms' }}>
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24 animate-fade-in" style={{ animationDelay: '120ms' }}>
           <button
             onClick={() => onNavigate(ViewState.SERVICES)}
             className="px-8 py-4 sm:px-10 sm:py-5 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ease-out active:scale-95 shadow-xl"
@@ -85,7 +85,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </div>
 
         {/* Bento Grid de Servicios */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left animate-fade-in" style={{ animationDelay: '300ms' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left animate-fade-in" style={{ animationDelay: '180ms' }}>
           {bentoServices.map((service, index) => (
             <article
               key={index}
