@@ -6,11 +6,10 @@ interface PortfolioProps {
   onNavigate: (view: ViewState, service?: ServiceCategory) => void;
 }
 
-// Unsplash free-use images — modern Mediterranean villas
 const URBAN_JUNGLE_IMAGES = [
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=500&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=500&fit=crop&q=80',
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=500&fit=crop&q=80',
+  '/images/portfolio/uj-01.jpg',
+  '/images/portfolio/uj-02.jpg',
+  '/images/portfolio/z50.jpg',
 ];
 
 const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
@@ -60,7 +59,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
               <div key={i} className="relative overflow-hidden">
                 <img
                   src={src}
-                  alt={`Urban Jungle vivienda ${i + 1}`}
+                  alt={i === 2 ? 'Panel Zennio Z50 — control de clima, luces y persianas' : `Urban Jungle vivienda ${i + 1}`}
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   loading="lazy"
                   onError={(e) => {
