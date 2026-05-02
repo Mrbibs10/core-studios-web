@@ -1,24 +1,28 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { ViewState, NavItem, ServiceCategory } from './types';
 import Hero from './components/Hero';
-import Services from './components/Workflows';
-import About from './components/About';
-import Contact from './components/Contact';
-import Legal from './components/Legal';
-import Process from './components/Process';
-import Portfolio from './components/Portfolio';
 import Footer from './components/Footer';
 import PrivacyModal from './components/PrivacyModal';
 import CookiesModal from './components/CookiesModal';
 import CookiesBanner from './components/CookiesBanner';
 import AnalyticsTracker from './components/AnalyticsTracker';
+import { useDocumentMeta } from './hooks/useDocumentMeta';
 import { Menu, X } from 'lucide-react';
+
+const Services = lazy(() => import('./components/Workflows'));
+const About = lazy(() => import('./components/About'));
+const Contact = lazy(() => import('./components/Contact'));
+const Legal = lazy(() => import('./components/Legal'));
+const Process = lazy(() => import('./components/Process'));
+const Portfolio = lazy(() => import('./components/Portfolio'));
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>(ViewState.HOME);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [preselectedService, setPreselectedService] = useState<ServiceCategory | undefined>(undefined);
+
+  useDocumentMeta(currentView);
 
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showCookiesModal, setShowCookiesModal] = useState(false);
@@ -234,9 +238,11 @@ const App: React.FC = () => {
 
       {/* Main content — key triggers fade-in animation on every navigation */}
       <main id="main-content" className="flex-grow w-full overflow-x-hidden">
-        <div key={currentView} className="animate-fade-in">
-          {renderView()}
-        </div>
+        <Suspense fallback={<div className="min-h-screen bg-apple-bg" aria-hidden="true" />}>
+          <div key={currentView} className="animate-fade-in">
+            {renderView()}
+          </div>
+        </Suspense>
       </main>
 
       <Footer
