@@ -1,33 +1,36 @@
 import React from 'react';
-import { ViewState } from '../types';
-import { ChevronRight, Workflow, Bot, Monitor } from 'lucide-react';
+import { ViewState, ServiceCategory } from '../types';
+import { ChevronRight, Workflow, Monitor, Home } from 'lucide-react';
 
 interface HeroProps {
-  onNavigate: (view: ViewState) => void;
+  onNavigate: (view: ViewState, service?: ServiceCategory) => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
-  const bentoServices = [
+  const bentoServices: { icon: React.ElementType; iconColor: string; bgColor: string; title: string; text: string; category: ServiceCategory }[] = [
     {
       icon: Workflow,
       iconColor: 'text-[#0071e3]',
       bgColor: 'bg-blue-50',
       title: "Automatización",
-      text: "Elimina tareas repetitivas. Conectamos tus apps para que tu negocio funcione en piloto automático."
-    },
-    {
-      icon: Bot,
-      iconColor: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      title: "Inteligencia Artificial",
-      text: "Tu segundo cerebro. Asistentes que responden, agendan y venden por ti 24/7."
+      text: "Elimina tareas repetitivas. Conectamos tus apps para que tu negocio funcione en piloto automático.",
+      category: 'WORKFLOWS'
     },
     {
       icon: Monitor,
       iconColor: 'text-gray-800',
       bgColor: 'bg-gray-100',
       title: "Web Premium",
-      text: "Diseño estratégico. No solo hacemos webs bonitas, creamos máquinas de conversión."
+      text: "Diseño estratégico. No solo hacemos webs bonitas, creamos máquinas de conversión.",
+      category: 'WEB'
+    },
+    {
+      icon: Home,
+      iconColor: 'text-emerald-600',
+      bgColor: 'bg-emerald-50',
+      title: "Domótica",
+      text: "Espacios inteligentes. Automatizamos tu hogar u oficina para que todo funcione a tu ritmo.",
+      category: 'DOMOTICA'
     }
   ];
 
@@ -102,7 +105,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
               <div className="mt-8 pt-8 border-t border-gray-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
                 <button
-                  onClick={() => onNavigate(ViewState.SERVICES)}
+                  onClick={() => onNavigate(ViewState.SERVICES, service.category)}
                   className="text-sm font-semibold text-apple-blue flex items-center gap-1"
                   aria-label={`Saber más sobre ${service.title}`}
                 >

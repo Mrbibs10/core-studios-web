@@ -112,10 +112,11 @@ const servicesData: WorkflowCardProps[] = [
 
 interface ServicesProps {
   onNavigate: (view: ViewState, service?: ServiceCategory) => void;
+  initialCategory?: ServiceCategory;
 }
 
-const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
-  const [activeCategory, setActiveCategory] = useState<ServiceCategory>('WORKFLOWS');
+const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
+  const [activeCategory, setActiveCategory] = useState<ServiceCategory>(initialCategory || 'WORKFLOWS');
   const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null);
 
   const categories: { id: ServiceCategory; label: string }[] = [

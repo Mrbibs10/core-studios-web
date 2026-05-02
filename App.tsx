@@ -97,7 +97,7 @@ const App: React.FC = () => {
           </>
         );
       case ViewState.SERVICES:
-        return <Services onNavigate={handleNavClick} />;
+        return <Services onNavigate={handleNavClick} initialCategory={preselectedService} />;
       case ViewState.ABOUT:
         return <About />;
       case ViewState.CONTACT:
