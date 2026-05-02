@@ -82,7 +82,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
           </div>
 
           {/* Content */}
-          <div className="p-8 md:p-12">
+          <div className="p-5 sm:p-8 md:p-12">
             <div className="flex flex-wrap gap-2 mb-6">
               <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold tracking-wider uppercase border border-emerald-500/20">
                 Domótica
@@ -112,11 +112,11 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 mb-10">
+            <div className="grid grid-cols-3 gap-2 md:gap-4 mb-10">
               {stats.map((stat) => (
-                <div key={stat.label} className="bg-white/5 rounded-2xl p-5 border border-white/10 text-center">
-                  <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-xs text-white/40 uppercase tracking-wider font-medium">{stat.label}</div>
+                <div key={stat.label} className="bg-white/5 rounded-2xl p-3 md:p-5 border border-white/10 text-center">
+                  <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-[10px] md:text-xs text-white/40 uppercase tracking-wider font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -127,7 +127,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
               {/* Systems */}
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-3">Sistemas integrados</p>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-3">
                   {systems.map(({ icon: Icon, label }) => (
                     <div key={label} className="flex items-center gap-2 text-white/60 text-sm">
                       <div className="w-8 h-8 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">

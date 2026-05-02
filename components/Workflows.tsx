@@ -147,7 +147,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
             </p>
           </div>
 
-          <div className="flex gap-1 self-center md:self-auto bg-gray-200/50 p-1 rounded-full backdrop-blur-sm">
+          <div className="flex gap-1 self-center md:self-auto bg-gray-200/50 p-1 rounded-full backdrop-blur-sm overflow-x-auto max-w-full">
             {categories.map((cat) => (
               <button
                 key={cat.id}
@@ -157,7 +157,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
                 }}
                 aria-pressed={activeCategory === cat.id}
                 className={`
-                  px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
+                  px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0
                   ${activeCategory === cat.id
                     ? 'bg-white text-apple-text shadow-sm'
                     : 'text-apple-subtext hover:text-apple-text'

@@ -68,9 +68,9 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
         {/* Botones de acción principales */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24 animate-fade-in" style={{ animationDelay: '200ms' }}>
-          <button 
+          <button
             onClick={() => onNavigate(ViewState.SERVICES)}
-            className="px-10 py-5 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ease-out active:scale-95 shadow-xl"
+            className="px-8 py-4 sm:px-10 sm:py-5 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ease-out active:scale-95 shadow-xl"
           >
             Ver soluciones
           </button>
