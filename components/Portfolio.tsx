@@ -99,7 +99,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
               </span>
               <span className="flex items-center gap-1.5">
                 <Calendar size={14} />
-                2024
+                2025
               </span>
             </div>
 
