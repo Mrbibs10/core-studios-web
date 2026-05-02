@@ -78,7 +78,7 @@ const App: React.FC = () => {
     setCurrentView(view);
     setPreselectedService(service);
     setIsMenuOpen(false);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   };
 
   const handleAcceptCookies = () => {
