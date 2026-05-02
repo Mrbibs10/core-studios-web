@@ -1,7 +1,11 @@
 import React from 'react';
 import { MapPin, Quote } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const About: React.FC = () => {
+  const cardRef = useScrollReveal<HTMLDivElement>();
+  const footerRef = useScrollReveal<HTMLDivElement>(0.2);
+
   return (
     <section
       id="nosotros"
@@ -9,10 +13,10 @@ const About: React.FC = () => {
       className="min-h-screen py-32 px-6 bg-apple-bg flex flex-col items-center justify-center overflow-hidden"
     >
       <div className="container mx-auto max-w-4xl relative">
-        
+
         {/* Manifiesto / Carta de Marca */}
-        <div className="bg-white rounded-[48px] p-10 md:p-20 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-gray-100 relative animate-fade-in">
-          
+        <div ref={cardRef} className="reveal bg-white rounded-[48px] p-10 md:p-20 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-gray-100 relative">
+
           {/* Decoración de comilla sutil */}
           <div className="absolute top-12 left-12 text-apple-blue/5 pointer-events-none">
             <Quote size={80} fill="currentColor" />
@@ -32,14 +36,14 @@ const About: React.FC = () => {
 
             <div className="space-y-8 text-lg md:text-2xl text-apple-subtext font-light leading-relaxed">
               <p>
-                En un mundo lleno de agencias que prometen la luna, nosotros preferimos mantener los pies en la tierra. 
+                En un mundo lleno de agencias que prometen la luna, nosotros preferimos mantener los pies en la tierra.
                 En <span className="text-apple-text font-medium">Core Studios</span>, entendemos los retos reales de los negocios en Mallorca.
               </p>
-              
+
               <p>
-                No solo escribimos código; <span className="italic text-apple-text">diseñamos tiempo</span>. Nuestro objetivo no es llenarte de herramientas complejas, sino construir sistemas invisibles que automaticen el trabajo sucio. 
+                No solo escribimos código; <span className="italic text-apple-text">diseñamos tiempo</span>. Nuestro objetivo no es llenarte de herramientas complejas, sino construir sistemas invisibles que automaticen el trabajo sucio.
               </p>
-              
+
               <p>
                 Queremos que tu empresa funcione como un reloj suizo, mientras tú recuperas tu calidad de vida y el control sobre lo que realmente importa.
               </p>
@@ -60,7 +64,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Elemento decorativo inferior */}
-        <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: '300ms' }}>
+        <div ref={footerRef} className="reveal reveal-delay-1 mt-16 text-center">
           <p className="text-apple-subtext/40 text-xs tracking-widest uppercase font-bold">
             Estandarizando el futuro desde el corazón de la isla
           </p>
