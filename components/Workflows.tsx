@@ -154,10 +154,11 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
                   setActiveCategory(cat.id);
                   setExpandedServiceId(null);
                 }}
+                aria-pressed={activeCategory === cat.id}
                 className={`
                   px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
-                  ${activeCategory === cat.id 
-                    ? 'bg-white text-apple-text shadow-sm' 
+                  ${activeCategory === cat.id
+                    ? 'bg-white text-apple-text shadow-sm'
                     : 'text-apple-subtext hover:text-apple-text'
                   }
                 `}
@@ -187,6 +188,8 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
                 <button
                   onClick={() => toggleService(service.id, service.comingSoon)}
                   disabled={service.comingSoon}
+                  aria-expanded={isExpanded}
+                  aria-label={`${service.comingSoon ? service.title + ' — Próximamente' : (isExpanded ? 'Colapsar ' : 'Expandir ') + service.title}`}
                   className={`p-8 text-left w-full h-full flex flex-col ${service.comingSoon ? 'cursor-default' : 'cursor-pointer'}`}
                 >
                   <div className="flex justify-between items-start mb-6">

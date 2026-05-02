@@ -100,7 +100,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 {service.text}
               </p>
 
-              <div className="mt-8 pt-8 border-t border-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div className="mt-8 pt-8 border-t border-gray-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
                 <button
                   onClick={() => onNavigate(ViewState.SERVICES)}
                   className="text-sm font-semibold text-apple-blue flex items-center gap-1"

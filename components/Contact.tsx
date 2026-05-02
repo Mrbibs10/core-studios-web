@@ -68,6 +68,8 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
     const limits: Record<string, number> = { name: 100, email: 254, message: 2000 };
     const capped = limits[name] !== undefined ? value.slice(0, limits[name]) : value;
     setFormData(prev => ({ ...prev, [name]: capped }));
+    // Clear error as soon as user starts correcting
+    if (errorMsg) setErrorMsg(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -99,23 +101,39 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
       message: sanitize(formData.message, 2000),
     };
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(sanitized)
+        body: JSON.stringify(sanitized),
+        signal: controller.signal,
       });
 
       if (response.ok) {
         markSubmission();
         setIsSubmitted(true);
-        setFormData(prev => ({ ...prev, message: '' }));
+        // Full form reset after success
+        setFormData({
+          name: '',
+          email: '',
+          service: (initialService || 'WORKFLOWS') as ServiceCategory,
+          message: '',
+        });
+        setAcceptedPrivacy(false);
       } else {
         setErrorMsg('Hubo un error al enviar. Por favor, inténtalo de nuevo.');
       }
-    } catch {
-      setErrorMsg('Hubo un error al enviar. Por favor, inténtalo de nuevo.');
+    } catch (err: any) {
+      if (err?.name === 'AbortError') {
+        setErrorMsg('La solicitud tardó demasiado. Comprueba tu conexión e inténtalo de nuevo.');
+      } else {
+        setErrorMsg('Hubo un error al enviar. Por favor, inténtalo de nuevo.');
+      }
     } finally {
+      clearTimeout(timeoutId);
       setIsLoading(false);
     }
   };
