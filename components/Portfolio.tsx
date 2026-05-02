@@ -6,10 +6,11 @@ interface PortfolioProps {
   onNavigate: (view: ViewState, service?: ServiceCategory) => void;
 }
 
+// Unsplash free-use images — modern Mediterranean villas
 const URBAN_JUNGLE_IMAGES = [
-  'https://urbanjungle.ev-mallorca.com/wp-content/uploads/2024/03/fachada-1.jpg',
-  'https://urbanjungle.ev-mallorca.com/wp-content/uploads/2024/03/salon-1.jpg',
-  'https://urbanjungle.ev-mallorca.com/wp-content/uploads/2024/03/cocina-1.jpg',
+  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=500&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=500&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=500&fit=crop&q=80',
 ];
 
 const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
@@ -63,11 +64,10 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   loading="lazy"
                   onError={(e) => {
-                    const target = e.currentTarget;
+                    const target = e.currentTarget as HTMLImageElement;
                     target.style.display = 'none';
-                    const parent = target.parentElement;
-                    if (parent) {
-                      parent.style.background = 'linear-gradient(135deg, #1e3a5f 0%, #0f2035 100%)';
+                    if (target.parentElement) {
+                      target.parentElement.style.background = 'linear-gradient(135deg, #1a3a5c 0%, #0d1f33 100%)';
                     }
                   }}
                 />
