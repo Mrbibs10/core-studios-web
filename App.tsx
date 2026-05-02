@@ -6,6 +6,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Legal from './components/Legal';
 import Process from './components/Process';
+import Portfolio from './components/Portfolio';
 import Footer from './components/Footer';
 import PrivacyModal from './components/PrivacyModal';
 import CookiesModal from './components/CookiesModal';
@@ -94,6 +95,7 @@ const App: React.FC = () => {
           <>
             <Hero onNavigate={handleNavClick} />
             <Process />
+            <Portfolio onNavigate={handleNavClick} />
           </>
         );
       case ViewState.SERVICES:
