@@ -1,6 +1,7 @@
 import React from 'react';
 import { ViewState, ServiceCategory } from '../types';
 import { ChevronRight, Thermometer, Lightbulb, Wind, MapPin, Calendar } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface PortfolioProps {
   onNavigate: (view: ViewState, service?: ServiceCategory) => void;
@@ -13,6 +14,9 @@ const URBAN_JUNGLE_IMAGES = [
 ];
 
 const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
+  const headerRef = useScrollReveal<HTMLDivElement>();
+  const cardRef = useScrollReveal<HTMLDivElement>(0.1);
+
   const stats = [
     { value: '5', label: 'Viviendas' },
     { value: '25', label: 'Actuadores' },
@@ -36,7 +40,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
       <div className="container mx-auto max-w-6xl">
 
         {/* Header */}
-        <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
+        <div ref={headerRef} className="reveal mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
           <div>
             <span className="inline-block mb-4 px-3 py-1 rounded-full bg-white/10 text-[10px] font-bold tracking-[0.2em] text-white/60 uppercase border border-white/10">
               Caso Real · Mallorca
@@ -51,7 +55,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
         </div>
 
         {/* Project card */}
-        <div className="rounded-[40px] overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm">
+        <div ref={cardRef} className="reveal reveal-delay-1 rounded-[40px] overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm">
 
           {/* Image grid */}
           <div className="grid grid-cols-3 h-64 md:h-96 overflow-hidden">
