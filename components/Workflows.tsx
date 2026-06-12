@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { WorkflowCardProps, ServiceCategory, ViewState } from '../types';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import { 
   Mail, Sparkles, BarChart3, Globe, ShoppingBag, Lightbulb, 
   Wand2, ChevronDown, Mic, MessageSquare, LayoutDashboard, Home 
@@ -115,9 +116,23 @@ interface ServicesProps {
   initialCategory?: ServiceCategory;
 }
 
+/* Envoltorio con entrada 3D escalonada según la columna de la tarjeta */
+const RevealCard: React.FC<{ index: number; children: React.ReactNode }> = ({ index, children }) => {
+  const ref = useScrollReveal<HTMLDivElement>(0.05);
+  const col = index % 3;
+  const tilt = col === 0 ? 'reveal-tilt-left' : col === 2 ? 'reveal-tilt-right' : '';
+  const delay = ['', 'reveal-delay-1', 'reveal-delay-2'][col];
+  return (
+    <div ref={ref} className={`reveal ${tilt} ${delay}`}>
+      {children}
+    </div>
+  );
+};
+
 const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>(initialCategory || 'WORKFLOWS');
   const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null);
+  const headerRef = useScrollReveal<HTMLDivElement>(0.1);
 
   const categories: { id: ServiceCategory; label: string }[] = [
     { id: 'WORKFLOWS', label: 'Workflows' },
@@ -139,7 +154,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
       className="min-h-screen py-32 px-6 bg-apple-bg transition-colors duration-500 overflow-x-hidden"
     >
       <div className="container mx-auto max-w-6xl">
-        <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
+        <div ref={headerRef} className="reveal mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
           <div className="text-center md:text-left">
             <span className="text-apple-blue font-semibold tracking-[0.2em] mb-4 inline-block uppercase text-[10px]">
               Soluciones
@@ -176,12 +191,12 @@ const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-          {filteredServices.map((service) => {
+          {filteredServices.map((service, index) => {
             const isExpanded = expandedServiceId === service.id;
-            
+
             return (
+              <RevealCard key={service.id} index={index}>
               <div
-                key={service.id}
                 className={`
                   relative rounded-[32px] transition-all duration-500 ease-in-out flex flex-col overflow-hidden border
                   ${isExpanded
@@ -271,6 +286,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
                   </div>
                 </div>
               </div>
+              </RevealCard>
             );
           })}
         </div>

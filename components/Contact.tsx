@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle, ChevronDown, Loader2, AlertCircle } from 'lucide-react';
 import PrivacyModal from './PrivacyModal';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 type ServiceCategory = 'WORKFLOWS' | 'WEB' | 'DOMOTICA';
 
@@ -56,6 +57,9 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
     service: (initialService || 'WORKFLOWS') as ServiceCategory,
     message: ''
   });
+
+  const headerRef = useScrollReveal<HTMLDivElement>(0.1);
+  const cardRef = useScrollReveal<HTMLDivElement>(0.05);
 
   useEffect(() => {
     if (initialService) {
@@ -146,7 +150,7 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
     >
       <div className="container max-w-xl">
 
-        <div className="text-center mb-12">
+        <div ref={headerRef} className="reveal text-center mb-12">
           <span className="text-apple-blue font-semibold tracking-[0.2em] mb-4 inline-block uppercase text-[10px]">
             Consulta gratuita
           </span>
@@ -156,7 +160,7 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
           <p className="text-[#86868b] text-lg font-light">Diseñamos la solución que tu negocio necesita.</p>
         </div>
 
-        <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-[0_24px_80px_-32px_rgba(0,0,0,0.12)] border border-gray-200">
+        <div ref={cardRef} className="reveal reveal-delay-1 bg-white rounded-[40px] p-8 md:p-12 shadow-[0_24px_80px_-32px_rgba(0,0,0,0.12)] border border-gray-200">
           {isSubmitted ? (
             <div className="py-20 flex flex-col items-center justify-center text-center space-y-6 animate-fade-in">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600">
