@@ -35,9 +35,13 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
     <section
       id="proyectos"
       aria-label="Proyectos realizados de domótica en Mallorca"
-      className="py-32 px-6 bg-[#1d1d1f] overflow-x-hidden"
+      className="relative py-32 px-6 bg-[#1d1d1f] overflow-hidden"
     >
-      <div className="container mx-auto max-w-6xl">
+      {/* Resplandor ambiental */}
+      <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[60%] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none" aria-hidden="true"></div>
+      <div className="absolute bottom-[-30%] left-[-10%] w-[40%] h-[50%] bg-emerald-500/5 rounded-full blur-[140px] pointer-events-none" aria-hidden="true"></div>
+
+      <div className="container mx-auto max-w-6xl relative z-10">
 
         {/* Header */}
         <div ref={headerRef} className="reveal mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
@@ -45,7 +49,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
             <span className="inline-block mb-4 px-3 py-1 rounded-full bg-white/10 text-[10px] font-bold tracking-[0.2em] text-white/60 uppercase border border-white/10">
               Caso Real · Mallorca
             </span>
-            <h2 className="text-4xl font-semibold text-white mb-4 tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4 tracking-tight">
               Proyectos Destacados.
             </h2>
             <p className="text-xl text-white/50 font-light max-w-md">
@@ -55,7 +59,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
         </div>
 
         {/* Project card */}
-        <div ref={cardRef} className="reveal reveal-delay-1 rounded-[40px] overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm">
+        <div ref={cardRef} className="reveal reveal-delay-1 rounded-[40px] overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-700 hover:border-white/20 hover:shadow-[0_40px_100px_-40px_rgba(0,113,227,0.35)]">
 
           {/* Image grid */}
           <div className="grid grid-cols-3 h-64 md:h-96 overflow-hidden">

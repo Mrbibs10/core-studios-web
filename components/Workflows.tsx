@@ -141,13 +141,18 @@ const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
       <div className="container mx-auto max-w-6xl">
         <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
           <div className="text-center md:text-left">
-            <h2 className="text-4xl font-semibold text-apple-text mb-4 tracking-tight">Nuestros Servicios.</h2>
+            <span className="text-apple-blue font-semibold tracking-[0.2em] mb-4 inline-block uppercase text-[10px]">
+              Soluciones
+            </span>
+            <h2 className="text-4xl md:text-5xl font-semibold mb-4 tracking-tight">
+              <span className="text-gradient-dark">Nuestros Servicios.</span>
+            </h2>
             <p className="text-xl text-apple-subtext font-light max-w-md">
               Ecosistemas digitales completos para tu negocio.
             </p>
           </div>
 
-          <div className="flex gap-1 self-center md:self-auto bg-gray-200/50 p-1 rounded-full backdrop-blur-sm overflow-x-auto max-w-full">
+          <div className="flex gap-1 self-center md:self-auto bg-gray-200/60 p-1.5 rounded-full backdrop-blur-sm overflow-x-auto max-w-full shadow-[inset_0_1px_3px_rgba(0,0,0,0.06)]">
             {categories.map((cat) => (
               <button
                 key={cat.id}
@@ -179,11 +184,13 @@ const Services: React.FC<ServicesProps> = ({ onNavigate, initialCategory }) => {
                 key={service.id}
                 className={`
                   relative rounded-[32px] transition-all duration-500 ease-in-out flex flex-col overflow-hidden border
-                  ${isExpanded 
-                    ? 'bg-white shadow-2xl ring-1 ring-apple-blue/10 scale-[1.02] z-10' 
+                  ${isExpanded
+                    ? 'bg-white shadow-2xl ring-1 ring-apple-blue/10 scale-[1.02] z-10'
                     : 'bg-white shadow-sm border-transparent'
                   }
-                  ${service.comingSoon ? 'opacity-70 grayscale-[0.5]' : 'hover:shadow-lg hover:border-gray-200'}
+                  ${service.comingSoon
+                    ? 'opacity-70 grayscale-[0.5]'
+                    : 'card-premium hover:shadow-[0_24px_50px_-20px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:border-gray-200'}
                 `}
               >
                 <button

@@ -13,6 +13,8 @@
   --animate-fade-in: fadeIn 0.5s ease-out forwards;
   --animate-scale-up: scaleUp 0.3s ease-out forwards;
   --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 12s ease-in-out infinite;
+  --animate-pulse-dot: pulseDot 2.2s ease-in-out infinite;
 
   @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(10px); }
@@ -25,6 +27,10 @@
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.45); }
+    50% { opacity: 0.85; box-shadow: 0 0 0 6px rgba(52, 199, 89, 0); }
   }
 }
 
@@ -43,6 +49,9 @@ body {
   padding: 0;
   color: #1d1d1f;
   background-color: #F5F5F7;
+  font-feature-settings: 'ss01' on, 'cv11' on;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::-webkit-scrollbar {
@@ -67,11 +76,122 @@ body {
   overflow-x: hidden;
 }
 
+/* ============================================
+   Premium design utilities
+   ============================================ */
+
+/* Headline gradient — deep graphite fading to soft silver */
+.text-gradient-dark {
+  background: linear-gradient(135deg, #1d1d1f 30%, #6e6e73 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.text-gradient-silver {
+  background: linear-gradient(135deg, #a1a1a6 0%, #d2d2d7 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.text-gradient-blue {
+  background: linear-gradient(120deg, #0071e3 0%, #40a9ff 60%, #7bc6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Subtle engineering grid backdrop for hero sections */
+.bg-grid-fade {
+  background-image:
+    linear-gradient(to right, rgba(29, 29, 31, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 29, 31, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 75%);
+}
+
+/* Sweeping shine across primary CTAs on hover */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+.btn-shine:hover::after {
+  left: 130%;
+}
+
+/* Premium card: hairline gradient border revealed on hover */
+.card-premium {
+  position: relative;
+  background: #ffffff;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(0, 113, 227, 0.35), rgba(0, 113, 227, 0.02) 40%, rgba(0, 113, 227, 0.18) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.card-premium:hover::before {
+  opacity: 1;
+}
+
+/* Frosted navigation glass */
+.nav-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+/* Hairline divider with a fading gradient */
+.divider-fade {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(29, 29, 31, 0.12), transparent);
+}
+
+/* Giant watermark wordmark for the footer */
+.wordmark-watermark {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  background: linear-gradient(to bottom, rgba(29, 29, 31, 0.06), rgba(29, 29, 31, 0.0));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  user-select: none;
+}
+
 /* Scroll reveal */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.reveal-visible {
   opacity: 1;
@@ -86,5 +206,8 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .btn-shine::after {
+    display: none;
   }
 }

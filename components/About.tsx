@@ -14,8 +14,11 @@ const About: React.FC = () => {
     >
       <div className="container mx-auto max-w-4xl relative">
 
+        {/* Resplandor decorativo tras la tarjeta */}
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[70%] h-64 bg-blue-100/40 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
+
         {/* Manifiesto / Carta de Marca */}
-        <div ref={cardRef} className="reveal bg-white rounded-[48px] p-10 md:p-20 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-gray-100 relative">
+        <div ref={cardRef} className="reveal bg-white rounded-[48px] p-10 md:p-20 shadow-[0_24px_80px_-32px_rgba(0,0,0,0.12)] border border-gray-100 relative">
 
           {/* Decoración de comilla sutil */}
           <div className="absolute top-12 left-12 text-apple-blue/5 pointer-events-none">
@@ -27,9 +30,9 @@ const About: React.FC = () => {
               <span className="text-apple-blue font-semibold tracking-[0.2em] mb-4 inline-block uppercase text-[10px]">
                 Nuestra Esencia
               </span>
-              <h2 className="text-4xl md:text-6xl font-semibold text-apple-text tracking-tight leading-tight">
-                Ingeniería local.<br />
-                <span className="text-apple-subtext/60">Impacto global.</span>
+              <h2 className="text-4xl md:text-6xl font-semibold tracking-tight leading-tight">
+                <span className="text-gradient-dark">Ingeniería local.</span><br />
+                <span className="text-gradient-silver">Impacto global.</span>
               </h2>
               <p className="sr-only">Agencia de automatización e inteligencia artificial con sede en Inca, Mallorca.</p>
             </header>

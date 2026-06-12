@@ -1,6 +1,6 @@
 import React from 'react';
 import { ViewState, ServiceCategory } from '../types';
-import { ChevronRight, Workflow, Monitor, Home } from 'lucide-react';
+import { ChevronRight, Workflow, Monitor, Home, ArrowUpRight } from 'lucide-react';
 
 interface HeroProps {
   onNavigate: (view: ViewState, service?: ServiceCategory) => void;
@@ -34,31 +34,40 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     }
   ];
 
+  const trustItems = [
+    { value: 'Mallorca', label: 'Ingeniería local' },
+    { value: '< 24h', label: 'Tiempo de respuesta' },
+    { value: 'KNX · IA', label: 'Tecnología certificada' },
+  ];
+
   return (
     <section
       id="inicio"
       aria-label="Inicio - Automatización e Inteligencia Artificial en Mallorca"
       className="relative min-h-screen flex flex-col items-center pt-32 pb-20 bg-white overflow-hidden"
     >
-      {/* Background decoration */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50/50 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-50/50 rounded-full blur-[120px]"></div>
+      {/* Background decoration: light orbs + engineering grid */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div className="absolute inset-0 bg-grid-fade"></div>
+        <div className="absolute top-[-15%] left-[-10%] w-[45%] h-[45%] bg-blue-100/40 rounded-full blur-[140px] animate-float-slow"></div>
+        <div className="absolute top-[20%] right-[-15%] w-[40%] h-[40%] bg-sky-100/50 rounded-full blur-[120px] animate-float-slow" style={{ animationDelay: '-6s' }}></div>
+        <div className="absolute bottom-[-10%] left-[20%] w-[35%] h-[35%] bg-purple-50/60 rounded-full blur-[120px]"></div>
       </div>
 
       <div className="container mx-auto px-6 text-center max-w-5xl relative z-10">
-        
-        {/* Badge superior */}
+
+        {/* Badge superior con indicador de disponibilidad */}
         <div className="inline-block mb-8 animate-fade-in">
-          <span className="px-4 py-1.5 rounded-full bg-apple-bg text-[10px] font-bold tracking-[0.2em] text-apple-subtext uppercase border border-gray-100">
-            Agencia de Automatización en Mallorca
+          <span className="inline-flex items-center gap-2.5 pl-3 pr-5 py-2 rounded-full bg-white/70 backdrop-blur-sm text-[10px] font-bold tracking-[0.2em] text-apple-subtext uppercase border border-gray-200/80 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.08)]">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse-dot" aria-hidden="true"></span>
+            Agencia de Automatización · Mallorca
           </span>
         </div>
 
         {/* Headline principal */}
-        <h1 className="text-5xl md:text-8xl font-bold tracking-tight leading-[1.05] text-apple-text mb-8 animate-fade-in">
-          Transformando empresas.<br />
-          <span className="text-apple-subtext/40">Con inteligencia.</span>
+        <h1 className="text-5xl md:text-8xl font-bold tracking-tight leading-[1.05] mb-8 animate-fade-in">
+          <span className="text-gradient-dark">Transformando empresas.</span><br />
+          <span className="text-gradient-silver">Con inteligencia.</span>
         </h1>
 
         {/* Sub-headline */}
@@ -67,15 +76,15 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </p>
 
         {/* Botones de acción principales */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24 animate-fade-in" style={{ animationDelay: '200ms' }}>
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-fade-in" style={{ animationDelay: '200ms' }}>
           <button
             onClick={() => onNavigate(ViewState.SERVICES)}
-            className="px-8 py-4 sm:px-10 sm:py-5 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ease-out active:scale-95 shadow-xl"
+            className="btn-shine px-8 py-4 sm:px-10 sm:py-5 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 hover:-translate-y-1 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out active:scale-95 shadow-xl"
           >
             Ver soluciones
           </button>
-          
-          <button 
+
+          <button
             onClick={() => onNavigate(ViewState.CONTACT)}
             className="group flex items-center gap-2 text-apple-blue text-lg font-semibold hover:underline decoration-2 underline-offset-8 transition-all"
           >
@@ -84,19 +93,33 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </button>
         </div>
 
+        {/* Franja de confianza */}
+        <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 mb-24 animate-fade-in" style={{ animationDelay: '250ms' }}>
+          {trustItems.map((item, i) => (
+            <React.Fragment key={item.label}>
+              {i > 0 && <span className="hidden sm:block w-px h-8 bg-gray-200" aria-hidden="true"></span>}
+              <div className="text-center">
+                <div className="text-lg font-semibold text-apple-text tracking-tight">{item.value}</div>
+                <div className="text-[10px] uppercase tracking-[0.18em] text-apple-subtext/70 font-bold mt-0.5">{item.label}</div>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+
         {/* Bento Grid de Servicios */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left animate-fade-in" style={{ animationDelay: '300ms' }}>
           {bentoServices.map((service, index) => (
             <article
               key={index}
-              className="group bg-white rounded-[32px] p-10 border border-gray-100 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 ease-out cursor-default"
+              className="card-premium group rounded-[32px] p-10 border border-gray-100 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-2 cursor-default"
             >
-              <div className={`w-16 h-16 ${service.bgColor} ${service.iconColor} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500`} aria-hidden="true">
+              <div className={`w-16 h-16 ${service.bgColor} ${service.iconColor} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-[-4deg] transition-transform duration-500`} aria-hidden="true">
                 <service.icon size={32} strokeWidth={1.5} />
               </div>
 
-              <h3 className="text-2xl font-bold text-apple-text mb-4 tracking-tight">
+              <h3 className="text-2xl font-bold text-apple-text mb-4 tracking-tight flex items-center justify-between">
                 {service.title}
+                <ArrowUpRight size={20} className="text-gray-300 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500" aria-hidden="true" />
               </h3>
 
               <p className="text-[16px] leading-relaxed text-apple-subtext font-light">

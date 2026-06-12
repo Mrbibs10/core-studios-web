@@ -127,7 +127,7 @@ const App: React.FC = () => {
         aria-label="Navegación principal"
         className={`fixed top-0 w-full z-[60] transition-all duration-500 ${
           scrolled || isMenuOpen || currentView !== ViewState.HOME
-            ? 'bg-white/80 backdrop-blur-xl border-b border-gray-100 py-3 shadow-sm'
+            ? 'nav-glass border-b border-gray-100 py-3 shadow-sm'
             : 'bg-transparent py-6'
         }`}
       >

@@ -147,11 +147,16 @@ const Contact: React.FC<ContactProps> = ({ initialService }) => {
       <div className="container max-w-xl">
 
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-semibold text-[#1d1d1f] mb-4 tracking-tight">Hablemos.</h2>
-          <p className="text-[#86868b] text-lg">Diseñamos la solución que tu negocio necesita.</p>
+          <span className="text-apple-blue font-semibold tracking-[0.2em] mb-4 inline-block uppercase text-[10px]">
+            Consulta gratuita
+          </span>
+          <h2 className="text-4xl md:text-5xl font-semibold mb-4 tracking-tight">
+            <span className="text-gradient-dark">Hablemos.</span>
+          </h2>
+          <p className="text-[#86868b] text-lg font-light">Diseñamos la solución que tu negocio necesita.</p>
         </div>
 
-        <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-[0_24px_80px_-32px_rgba(0,0,0,0.12)] border border-gray-200">
           {isSubmitted ? (
             <div className="py-20 flex flex-col items-center justify-center text-center space-y-6 animate-fade-in">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600">
